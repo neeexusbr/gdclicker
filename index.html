@@ -24,8 +24,6 @@
             overflow: hidden;
             user-select: none;
         }
-
-        /* Área do Jogo */
         #game-container {
             flex: 1;
             display: flex;
@@ -42,7 +40,6 @@
             margin-bottom: 20px;
         }
 
-        /* O Cubo */
         #cube {
             width: 150px;
             height: 150px;
@@ -57,15 +54,10 @@
             position: relative;
         }
 
-        /* Rosto do Cubo */
-        #cube::before { left: 30px; }
-        #cube::after { right: 30px; }
-
         #cube:active {
             transform: scale(0.9);
         }
 
-        /* Painel de Upgrades */
         #shop {
             width: 100%;
             max-width: 500px;
@@ -76,6 +68,8 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
+            overflow-y: auto;
+            max-height: 300px;
         }
 
         .upgrade-btn {
@@ -109,12 +103,25 @@
             font-size: 1rem;
             margin-bottom: 10px;
         }
+
+        #skins {
+            margin: 10px;
+        }
+
+        #skins button {
+            margin: 5px;
+            padding: 5px 10px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
     <div id="game-container">
         <div class="stat">OPS: <span id="ops-display">0</span></div>
+        <div class="stat">Multiplicador: x<span id="mult-display">1</span></div>
         <div id="score-display">0 Orbs</div>
         
         <div id="cube" onclick="clickCube()"></div>
@@ -125,6 +132,7 @@
     </audio>
 
     <div id="shop">
+        <!-- Upgrades iniciais -->
         <button class="upgrade-btn" id="upg-click" onclick="buyUpgrade('click')">
             <b>Pulo Forte</b>
             <span id="cost-click">Custo: 15</span>
@@ -148,93 +156,317 @@
             <span id="cost-wave">Custo: 2500</span>
             <span>+50 Orbs/seg</span>
         </button>
+
+        <!-- Mais 20 upgrades -->
+        <button class="upgrade-btn" id="upg-rocket" onclick="buyUpgrade('rocket')">
+            <b>Rocket Boost</b>
+            <span id="cost-rocket">Custo: 10000</span>
+            <span>+200 Orbs/seg</span>
+        </button>
+        <button class="upgrade-btn" id="upg-laser" onclick="buyUpgrade('laser')">
+            <b>Laser Beam</b>
+            <span id="cost-laser">Custo: 25000</span>
+            <span>+500 Orbs/click</span>
+        </button>
+        <button class="upgrade-btn" id="upg-portal" onclick="buyUpgrade('portal')">
+            <b>Portal Jump</b>
+            <span id="cost-portal">Custo: 50000</span>
+            <span>+1000 Orbs/click</span>
+        </button>
+        <button class="upgrade-btn" id="upg-quantum" onclick="buyUpgrade('quantum')">
+            <b>Quantum Core</b>
+            <span id="cost-quantum">Custo: 100000</span>
+            <span>+2500 Orbs/click</span>
+        </button>
+        <button class="upgrade-btn" id="upg-blackhole" onclick="buyUpgrade('blackhole')">
+            <b>Black Hole</b>
+            <span id="cost-blackhole">Custo: 250000</span>
+            <span>+5000 Orbs/seg</span>
+        </button>
+        <button class="upgrade-btn" id="upg-supernova" onclick="buyUpgrade('supernova')">
+            <b>Supernova</b>
+            <span id="cost-supernova">Custo: 500000</span>
+            <span>+10000 Orbs/seg</span>
+        </button>
+        <button class="upgrade-btn" id="upg-wormhole" onclick="buyUpgrade('wormhole')">
+            <b>Wormhole</b>
+            <span id="cost-wormhole">Custo: 1000000</span>
+            <span>+25000 Orbs/click</span>
+        </button>
+        <button class="upgrade-btn" id="upg-galaxy" onclick="buyUpgrade('galaxy')">
+            <b>Galaxy Forge</b>
+            <span id="cost-galaxy">Custo: 2500000</span>
+            <span>+50000 Orbs/seg</span>
+        </button>
+        <button class="upgrade-btn" id="upg-universe" onclick="buyUpgrade('universe')">
+            <b>Universe Engine</b>
+            <span id="cost-universe">Custo: 5000000</span>
+            <span>+100000 Orbs/click</span>
+        </button>
+        <button class="upgrade-btn" id="upg-starforge" onclick="buyUpgrade('starforge')">
+            <b>Star Forge</b>
+            <span id="cost-starforge">Custo: 10000000</span>
+            <span>+250000 Orbs/click</span>
+        </button>
+        <button class="upgrade-btn" id="upg-hyperdrive" onclick="buyUpgrade('hyperdrive')">
+            <b>Hyperdrive</b>
+            <span id="cost-hyperdrive">Custo: 25000000</span>
+            <span>+500000 Orbs/seg</span>
+        </button>
+        <button class="upgrade-btn" id="upg-antimatter" onclick="buyUpgrade('antimatter')">
+            <b>Antimatter Reactor</b>
+            <span id="cost-antimatter">Custo: 50000000</span>
+            <span>+1000000 Orbs/click</span>
+        </button>
+        <button class="upgrade-btn" id="upg-singularity" onclick="buyUpgrade('singularity')">
+            <b>Singularity Core</b>
+            <span id="cost-singularity">Custo: 100000000</span>
+            <span>+2500000 Orbs/seg</span>
+        </button>
+        <button class="upgrade-btn" id="upg-multiverse" onclick="buyUpgrade('multiverse')">
+            <b>Multiverse Engine</b>
+            <span id="cost-multiverse">Custo: 250000000</span>
+            <span>+5000000 Orbs/click</span>
+        </button>
+        <button class="upgrade-btn" id="upg-omniverse" onclick="buyUpgrade('omniverse')">
+            <b>Omniverse Core</b>
+            <span id="cost-omniverse">Custo: 500000000</span>
+            <span>+10000000 Orbs/seg</span>
+        </button>
+        <button class="upgrade-btn" id="upg-eternity" onclick="buyUpgrade('eternity')">
+            <b>Eternity Engine</b>
+            <span id="cost-eternity">Custo: 1000000000</span>
+            <span>+25000000 Orbs/click</span>
+        </button>
+
+        <!-- continue até 20 upgrades -->
     </div>
 
+
+    <button class="upgrade-btn" id="rebirth-btn" onclick="rebirth()">
+        <b>Renascimento</b>
+        <span>Reseta progresso e aumenta multiplicador</span>
+    </button>
+
     <script>
-        let orbs = 0;
-        let orbsPerClick = 1;
-        let orbsPerSecond = 0;
+    let orbs = 0;
+    let orbsPerClick = 1;
+    let orbsPerSecond = 0;
+    let multiplier = 1;
+    let rebirthCount = 0;
 
-        const prices = {
-            click: 15,
-            auto: 50,
-            ship: 500,
-            wave: 2500
-        };
+    const skins = [
+        { threshold: 0, file: "normal.png" },
+        { threshold: 1000, file: "1.png" },
+        { threshold: 10000, file: "2.png" },
+        { threshold: 100000, file: "4.png" },
+        { threshold: 1000000, file: "5.png" },
+        { threshold: 10000000, file: "6.png" }
+    ];
+ 
+    const prices = {
+        click: 15,
+        auto: 50,
+        ship: 500,
+        wave: 2500,
+        rocket: 10000,
+        laser: 25000,
+        portal: 50000,
+        quantum: 100000,
+        blackhole: 250000,
+        supernova: 500000,
+        wormhole: 1000000,
+        galaxy: 2500000,
+        universe: 5000000,
+        starforge: 10000000,
+        hyperdrive: 25000000,
+        antimatter: 50000000,
+        singularity: 100000000,
+        multiverse: 250000000,
+        omniverse: 500000000,
+        eternity: 1000000000
+    };
 
-        function updateDisplay() {
-            document.getElementById('score-display').innerText = Math.floor(orbs) + " Orbs";
-            document.getElementById('ops-display').innerText = orbsPerSecond.toFixed(1);
-            
-            // Verifica se o jogador pode comprar
-            for (let item in prices) {
+    function updateDisplay() {
+        document.getElementById('score-display').innerText = Math.floor(orbs) + " Orbs";
+        document.getElementById('ops-display').innerText = orbsPerSecond.toFixed(1);
+        document.getElementById('mult-display').innerText = multiplier.toFixed(1);
+
+        for (let item in prices) {
+            if (document.getElementById(`upg-${item}`)) {
                 document.getElementById(`upg-${item}`).disabled = (orbs < prices[item]);
             }
         }
+    }
 
-        function clickCube() {
-            orbs += orbsPerClick;
+    function clickCube() {
+        orbs += orbsPerClick * multiplier;
+        updateDisplay();
+
+        const clickAudio = document.getElementById('click');
+        if (clickAudio) {
+            try {
+                clickAudio.currentTime = 0;
+                const playPromise = clickAudio.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(() => {});
+                }
+            } catch (e) {}
+        }
+
+        const cube = document.getElementById('cube');
+        cube.style.transform = "scale(0.9) rotate(5deg)";
+        setTimeout(() => {
+            cube.style.transform = "scale(1) rotate(0deg)";
+        }, 50);
+    }
+
+    function buyUpgrade(type) {
+        if (orbs >= prices[type]) {
+            orbs -= prices[type];
+
+            if (type === 'click') {
+                orbsPerClick += 1;
+                prices.click = Math.floor(prices.click * 1.5);
+                document.getElementById('cost-click').innerText = `Custo: ${prices.click}`;
+            } else if (type === 'auto') {
+                orbsPerSecond += 1;
+                prices.auto = Math.floor(prices.auto * 1.2);
+                document.getElementById('cost-auto').innerText = `Custo: ${prices.auto}`;
+            } else if (type === 'ship') {
+                orbsPerSecond += 10;
+                prices.ship = Math.floor(prices.ship * 1.3);
+                document.getElementById('cost-ship').innerText = `Custo: ${prices.ship}`;
+            } else if (type === 'wave') {
+                orbsPerSecond += 50;
+                prices.wave = Math.floor(prices.wave * 1.4);
+                document.getElementById('cost-wave').innerText = `Custo: ${prices.wave}`;
+            } else if (type === 'rocket') {
+                orbsPerSecond += 200;
+                prices.rocket = Math.floor(prices.rocket * 1.5);
+                document.getElementById('cost-rocket').innerText = `Custo: ${prices.rocket}`;
+            } else if (type === 'laser') {
+                orbsPerClick += 500;
+                prices.laser = Math.floor(prices.laser * 1.5);
+                document.getElementById('cost-laser').innerText = `Custo: ${prices.laser}`;
+            } else if (type === 'portal') {
+                orbsPerSecond += 1000;
+                prices.portal = Math.floor(prices.portal * 1.5);
+                document.getElementById('cost-portal').innerText = `Custo: ${prices.portal}`;
+            } else if (type === 'quantum') {
+                orbsPerSecond += 2500;
+                prices.quantum = Math.floor(prices.quantum * 1.5);
+                document.getElementById('cost-quantum').innerText = `Custo: ${prices.quantum}`;
+            } else if (type === 'blackhole') {
+                orbsPerSecond += 5000;
+                prices.blackhole = Math.floor(prices.blackhole * 1.5);
+                document.getElementById('cost-blackhole').innerText = `Custo: ${prices.blackhole}`;
+            } else if (type === 'supernova') {
+                orbsPerClick += 10000;
+                prices.supernova = Math.floor(prices.supernova * 1.5);
+                document.getElementById('cost-supernova').innerText = `Custo: ${prices.supernova}`;
+            } else if (type === 'wormhole') {
+                orbsPerSecond += 25000;
+                prices.wormhole = Math.floor(prices.wormhole * 1.5);
+                document.getElementById('cost-wormhole').innerText = `Custo: ${prices.wormhole}`;
+            } else if (type === 'galaxy') {
+                orbsPerSecond += 50000;
+                prices.galaxy = Math.floor(prices.galaxy * 1.5);
+                document.getElementById('cost-galaxy').innerText = `Custo: ${prices.galaxy}`;
+            } else if (type === 'universe') {
+                orbsPerClick += 100000;
+                prices.universe = Math.floor(prices.universe * 1.5);
+                document.getElementById('cost-universe').innerText = `Custo: ${prices.universe}`;
+            } else if (type === 'starforge') {
+                orbsPerSecond += 250000;
+                prices.starforge = Math.floor(prices.starforge * 1.5);
+                document.getElementById('cost-starforge').innerText = `Custo: ${prices.starforge}`;
+            } else if (type === 'hyperdrive') {
+                orbsPerSecond += 500000;
+                prices.hyperdrive = Math.floor(prices.hyperdrive * 1.5);
+                document.getElementById('cost-hyperdrive').innerText = `Custo: ${prices.hyperdrive}`;
+            } else if (type === 'antimatter') {
+                orbsPerClick += 1000000;
+                prices.antimatter = Math.floor(prices.antimatter * 1.5);
+                document.getElementById('cost-antimatter').innerText = `Custo: ${prices.antimatter}`;
+            } else if (type === 'singularity') {
+                orbsPerClick += 2500000;
+                prices.singularity = Math.floor(prices.singularity * 1.5);
+                document.getElementById('cost-singularity').innerText = `Custo: ${prices.singularity}`;
+            } else if (type === 'multiverse') {
+                orbsPerSecond += 5000000;
+                prices.multiverse = Math.floor(prices.multiverse * 1.5);
+                document.getElementById('cost-multiverse').innerText = `Custo: ${prices.multiverse}`;
+            } else if (type === 'omniverse') {
+                orbsPerClick += 10000000;
+                prices.omniverse = Math.floor(prices.omniverse * 1.5);
+                document.getElementById('cost-omniverse').innerText = `Custo: ${prices.omniverse}`;
+            } else if (type === 'eternity') {
+                orbsPerClick += 25000000;
+                prices.eternity = Math.floor(prices.eternity * 1.5);
+                document.getElementById('cost-eternity').innerText = `Custo: ${prices.eternity}`;
+            }
+
             updateDisplay();
-            
-            // Tocar som de clique (reseta para permitir cliques rápidos)
-            const clickAudio = document.getElementById('click');
-            if (clickAudio) {
-                try {
-                    clickAudio.currentTime = 0;
-                    const playPromise = clickAudio.play();
-                    if (playPromise !== undefined) {
-                        playPromise.catch(() => {
-                            // Falha ao tentar reproduzir (ex.: política de autoplay), ignorar silenciosamente
-                        });
-                    }
-                } catch (e) {
-                    // Ignorar erros de reprodução
-                }
-            }
-
-            // Efeito visual de rotação rápida ao clicar
-            const cube = document.getElementById('cube');
-            cube.style.transform = "scale(0.9) rotate(5deg)";
-            setTimeout(() => {
-                cube.style.transform = "scale(1) rotate(0deg)";
-            }, 50);
         }
-        
-        function buyUpgrade(type) {
-            if (orbs >= prices[type]) {
-                orbs -= prices[type];
+    }
 
-                
-                if (type === 'click') {
-                    orbsPerClick += 1;
-                    prices.click = Math.floor(prices.click * 1.5);
-                    document.getElementById('cost-click').innerText = `Custo: ${prices.click}`;
-                } else if (type === 'auto') {
-                    orbsPerSecond += 1;
-                    prices.auto = Math.floor(prices.auto * 1.2);
-                    document.getElementById('cost-auto').innerText = `Custo: ${prices.auto}`;
-                } else if (type === 'ship') {
-                    orbsPerSecond += 10;
-                    prices.ship = Math.floor(prices.ship * 1.3);
-                    document.getElementById('cost-ship').innerText = `Custo: ${prices.ship}`;
-                } else if (type === 'wave') {
-                    orbsPerSecond += 50;
-                    prices.wave = Math.floor(prices.wave * 1.4);
-                    document.getElementById('cost-wave').innerText = `Custo: ${prices.wave}`;
-                }
-                
-                updateDisplay();
+    function rebirth() {
+        let rprice = multiplier * 100000;
+        if (orbs >= rprice) {
+            orbs = 0;
+            orbsPerClick = 1;
+            orbsPerSecond = 0;
+            rebirthCount++;
+            multiplier *= 2.5;
+            alert(`Você renasceu! Multiplicador atual: x${multiplier}`);
+            updateDisplay();
+        } else {
+            alert(`Você precisa de pelo menos ${rprice.toLocaleString()} Orbs para renascer!`);
+        }
+    }
+
+    function updateSkin() {
+        let currentSkin = skins[0].file;
+        for (let s of skins) {
+            if (orbs >= s.threshold) {
+                currentSkin = s.file;
             }
         }
-
-        // Loop de ganho passivo (roda a cada 100ms para suavidade)
-        setInterval(() => {
-            if (orbsPerSecond > 0) {
-                orbs += orbsPerSecond / 10;
-                updateDisplay();
-            }
-        }, 100);
-    </script>
-</body>
-
-</html>
+        document.getElementById('cube').style.backgroundImage = `url('${currentSkin}')`;
+    }
+    function saveGame() {
+        const saveData = {
+            orbs,
+            orbsPerClick,
+            orbsPerSecond,
+            multiplier,
+            rebirthCount,
+            prices
+        };
+        localStorage.setItem('orbClickerSave', JSON.stringify(saveData));
+    }
+    function loadGame() {
+        const savedData = JSON.parse(localStorage.getItem('orbClickerSave'));
+        if (savedData) {
+            orbs = savedData.orbs;
+            orbsPerClick = savedData.orbsPerClick;
+            orbsPerSecond = savedData.orbsPerSecond;
+            multiplier = savedData.multiplier;
+            rebirthCount = savedData.rebirthCount;
+            Object.assign(prices, savedData.prices);
+            updateDisplay();
+        }
+    }
+    setInterval(() => {
+        if (orbsPerSecond > 0) {
+            orbs += (orbsPerSecond / 10) * multiplier;
+            updateDisplay();
+        }
+    }, 100);
+    window.onload = () => {
+        loadGame();
+        setInterval(updateSkin, 500);
+    };
+    setInterval(saveGame, 5000); // Salva a cada 5 segundos
+</script>
