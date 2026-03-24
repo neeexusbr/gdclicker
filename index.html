@@ -320,6 +320,30 @@
             cube.style.transform = "scale(1) rotate(0deg)";
         }, 50);
     }
+    function resetPrices() {
+        prices.click = 15;
+        prices.auto = 50;
+        prices.ship = 500;
+        prices.wave = 2500;
+        prices.rocket = 10000;
+        prices.laser = 25000;
+        prices.portal = 50000;
+        prices.quantum = 100000;
+        prices.blackhole = 250000;
+        prices.supernova = 500000;
+        prices.wormhole = 1000000;
+        prices.galaxy = 2500000;
+        prices.universe = 5000000;
+        prices.starforge = 10000000;
+        prices.hyperdrive = 25000000;
+        prices.antimatter = 50000000;
+        prices.singularity = 100000000;
+        prices.multiverse = 250000000;
+        prices.omniverse = 500000000;
+        prices.eternity = 1000000000;
+        saveGame();
+        updateDisplay();
+    }
 
     function buyUpgrade(type) {
         if (orbs >= prices[type]) {
@@ -421,6 +445,7 @@
             multiplier *= 2.5;
             alert(`Você renasceu! Multiplicador atual: x${multiplier}`);
             updateDisplay();
+            resetPrices();
         } else {
             alert(`Você precisa de pelo menos ${rprice.toLocaleString()} Orbs para renascer!`);
         }
@@ -458,6 +483,37 @@
             updateDisplay();
         }
     }
+    function checkInfinity() {
+    if (orbs == Infinity) {
+        alert("Parabéns! Você alcançou o infinito! O jogo irá resetar para evitar bugs.");
+        orbs = 0;
+        orbsPerClick = 1;
+        orbsPerSecond = 0;
+        multiplier = 1;
+        rebirthCount = 0;
+        prices.click = 15;
+        prices.auto = 50;
+        prices.ship = 500;
+        prices.wave = 2500;
+        prices.rocket = 10000;
+        prices.laser = 25000;
+        prices.portal = 50000;
+        prices.quantum = 100000;
+        prices.blackhole = 250000;
+        prices.supernova = 500000;
+        prices.wormhole = 1000000;
+        prices.galaxy = 2500000;
+        prices.universe = 5000000;
+        prices.starforge = 10000000;
+        prices.hyperdrive = 25000000;
+        prices.antimatter = 50000000;
+        prices.singularity = 100000000;
+        localStorage.removeItem('orbClickerSave');
+        updateDisplay();
+    }
+    }
+    setInterval(checkInfinity, 1000);
+
     setInterval(() => {
         if (orbsPerSecond > 0) {
             orbs += (orbsPerSecond / 10) * multiplier;
@@ -470,3 +526,5 @@
     };
     setInterval(saveGame, 5000); // Salva a cada 5 segundos
 </script>
+
+    
