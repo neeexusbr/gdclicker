@@ -118,7 +118,9 @@
     </style>
 </head>
 <body>
-
+    <div class="infinityimg" style="position: fixed; bottom: -70px; left: 50%; transform: translateX(-50%); z-index: 1001; pointer-events: none;">
+        <img src="infinity2.png" alt="Infinity" >
+    </div>
     <div id="game-container">
         <div class="stat">OPS: <span id="ops-display">0</span></div>
         <div class="stat">Multiplicador: x<span id="mult-display">1</span></div>
@@ -460,6 +462,7 @@
         }
         document.getElementById('cube').style.backgroundImage = `url('${currentSkin}')`;
     }
+
     function saveGame() {
         const saveData = {
             orbs,
@@ -510,6 +513,10 @@
         prices.singularity = 100000000;
         localStorage.removeItem('orbClickerSave');
         updateDisplay();
+        if (!localStorage.getItem('infinity_get')) {
+        localStorage.setItem('infinity_get', 'true'); // Marca a conquista de infinito
+        conquistaAnimacao('infinity'); // Animação de conquista
+        }
     }
     }
     setInterval(checkInfinity, 1000);
@@ -525,6 +532,32 @@
         setInterval(updateSkin, 500);
     };
     setInterval(saveGame, 5000); // Salva a cada 5 segundos
+    function conquistaAnimacao(tipo) {
+    const selectorMap = {
+        'infinity': '.infinityimg'
+    };
+    
+    const selector = selectorMap[tipo];
+    if (!selector) return;
+    
+    const div = document.querySelector(selector);
+    if (!div) return;
+
+    // Define a transição suave
+    div.style.transition = 'transform 0.5s ease-out';
+
+    // Move a div para cima (aparecendo)
+    div.style.transform = 'translate(-50%, -100px)';
+
+    // Toca o som
+    const audio = new Audio('achi.mp3');
+    audio.play();
+
+    // Depois de 3 segundos, volta para baixo
+    setTimeout(() => {
+        div.style.transform = 'translate(-50%, 0)';
+    }, 3000);
+}
 </script>
 
     
