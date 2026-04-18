@@ -444,7 +444,7 @@
             orbsPerClick = 1;
             orbsPerSecond = 0;
             rebirthCount++;
-            multiplier *= 10000 * multiplier * multiplier * multiplier * multiplier * multiplier * multiplier * multiplier * multiplier * multiplier; // Crescimento exponencial do multiplicador
+            multiplier *= 10000 * multiplier * multiplier * multiplier; // Crescimento exponencial do multiplicador
             alert(`Você renasceu! Multiplicador atual: x${multiplier}`);
             updateDisplay();
             resetPrices();
