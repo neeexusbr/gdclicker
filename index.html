@@ -438,13 +438,13 @@
     }
 
     function rebirth() {
-        let rprice = multiplier * 1000;
+        let rprice = multiplier * 10000;
         if (orbs >= rprice) {
             orbs = 0;
             orbsPerClick = 1;
             orbsPerSecond = 0;
             rebirthCount++;
-            multiplier *= 10000;
+            multiplier *= 10000 * multiplier * multiplier * multiplier * multiplier * multiplier * multiplier * multiplier * multiplier * multiplier; // Crescimento exponencial do multiplicador
             alert(`Você renasceu! Multiplicador atual: x${multiplier}`);
             updateDisplay();
             resetPrices();
