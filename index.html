@@ -290,13 +290,18 @@
     };
 
     function updateDisplay() {
-        document.getElementById('score-display').innerText = Math.floor(orbs) + " Orbs";
-        document.getElementById('ops-display').innerText = orbsPerSecond.toFixed(1);
-        document.getElementById('mult-display').innerText = multiplier.toFixed(1);
+        const scoreDisplay = document.getElementById('score-display');
+        const opsDisplay = document.getElementById('ops-display');
+        const multDisplay = document.getElementById('mult-display');
+        
+        if (scoreDisplay) scoreDisplay.innerText = Math.floor(orbs) + " Orbs";
+        if (opsDisplay) opsDisplay.innerText = orbsPerSecond.toFixed(1);
+        if (multDisplay) multDisplay.innerText = multiplier.toFixed(1);
 
         for (let item in prices) {
-            if (document.getElementById(`upg-${item}`)) {
-                document.getElementById(`upg-${item}`).disabled = (orbs < prices[item]);
+            const btn = document.getElementById(`upg-${item}`);
+            if (btn) {
+                btn.disabled = (orbs < prices[item]);
             }
         }
     }
@@ -317,10 +322,12 @@
         }
 
         const cube = document.getElementById('cube');
-        cube.style.transform = "scale(0.9) rotate(5deg)";
-        setTimeout(() => {
-            cube.style.transform = "scale(1) rotate(0deg)";
-        }, 50);
+        if (cube) {
+            cube.style.transform = "scale(0.9) rotate(5deg)";
+            setTimeout(() => {
+                cube.style.transform = "scale(1) rotate(0deg)";
+            }, 50);
+        }
     }
     function resetPrices() {
         prices.click = 15;
@@ -460,7 +467,10 @@
                 currentSkin = s.file;
             }
         }
-        document.getElementById('cube').style.backgroundImage = `url('${currentSkin}')`;
+        const cube = document.getElementById('cube');
+        if (cube) {
+            cube.style.backgroundImage = `url('${currentSkin}')`;
+        }
     }
 
     function saveGame() {
@@ -550,12 +560,16 @@
     div.style.transform = 'translate(-50%, -100px)';
 
     // Toca o som
-    const audio = new Audio('achi.mp3');
-    audio.play();
+    try {
+        const audio = new Audio('achi.mp3');
+        audio.play().catch(() => {});
+    } catch (e) {}
 
     // Depois de 3 segundos, volta para baixo
     setTimeout(() => {
-        div.style.transform = 'translate(-50%, 0)';
+        if (div) {
+            div.style.transform = 'translate(-50%, 0)';
+        }
     }, 3000);
 }
 </script>
