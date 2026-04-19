@@ -497,6 +497,14 @@
             updateDisplay();
         }
     }
+    function mp0(){
+        if (multiplier < 1) {
+            multiplier = 1;
+            alert("Multiplicador resetado para x1!");
+            updateDisplay();
+        }
+    }
+    setInterval(mp0, 10000); // Verifica a cada minuto para evitar multiplicadores menores que 1
     function checkInfinity() {
     if (orbs == Infinity) {
         alert("Parabéns! Você alcançou o infinito! O jogo irá resetar para evitar bugs.");
