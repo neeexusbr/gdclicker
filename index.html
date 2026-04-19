@@ -451,10 +451,11 @@
             orbsPerClick = 1;
             orbsPerSecond = 0;
             rebirthCount++;
-            multiplier *= 10000 * multiplier * multiplier * multiplier; // Crescimento exponencial do multiplicador
+            multiplier *= 2; // Crescimento linear: multiplica por 2 a cada renascimento
             alert(`Você renasceu! Multiplicador atual: x${multiplier}`);
             updateDisplay();
             resetPrices();
+            saveGame();
         } else {
             alert(`Você precisa de pelo menos ${rprice.toLocaleString()} Orbs para renascer!`);
         }
@@ -504,23 +505,7 @@
         orbsPerSecond = 0;
         multiplier = 1;
         rebirthCount = 0;
-        prices.click = 15;
-        prices.auto = 50;
-        prices.ship = 500;
-        prices.wave = 2500;
-        prices.rocket = 10000;
-        prices.laser = 25000;
-        prices.portal = 50000;
-        prices.quantum = 100000;
-        prices.blackhole = 250000;
-        prices.supernova = 500000;
-        prices.wormhole = 1000000;
-        prices.galaxy = 2500000;
-        prices.universe = 5000000;
-        prices.starforge = 10000000;
-        prices.hyperdrive = 25000000;
-        prices.antimatter = 50000000;
-        prices.singularity = 100000000;
+        resetPrices();
         localStorage.removeItem('orbClickerSave');
         updateDisplay();
         if (!localStorage.getItem('infinity_get')) {
